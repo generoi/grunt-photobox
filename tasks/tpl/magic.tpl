@@ -66,14 +66,25 @@
       display: inline-block;
       width: 30%;
       margin-left: 3.333%;
-
       position: relative;
-
       vertical-align: top;
+      overflow: hidden;
+      -webkit-transition: all .5s linear;
+      transition: all .5s linear;
+    }
+
+    main.inspect .col {
+      width: 0%;
+      margin: 0;
+    }
+    main.inspect .col.active {
+      width: 96.6%;
+      margin-left: 3.333%;
     }
 
     .col img {
       width: 100%;
+      max-width: 100%;
 
       box-shadow: 0 1px 1px #333;
     }
@@ -137,22 +148,16 @@
         <div class="row">
           <div class="size"><%= size %></div>
           <div class="colContainer">
-            <div class="col col-1">
+            <div class="col" data-col="1">
               <h2>Old screens</h2>
-              <a href="img/last/<%= name %>-<%= size %>.png?<%= now %>" target="_blank">
-                <img src="" data-src="img/last/<%= name %>-<%= size %>.png?<%= now %>" data-size="<%= size %>">
-              </a>
+              <img src="img/last/<%= name %>-<%= size %>.png?<%= now %>" data-size="<%= size %>">
               <p><%= timestamps.last %></p>
-            </div><div class="col col-2">
+            </div><div class="col" data-col="2">
               <h2>Difference</h2>
-              <a href="img/diff/<%= name %>-<%= size %>.png?<%= now %>" target="_blank">
-                <img src="" data-src="img/diff/<%= name %>-<%= size %>.png?<%= now %>" data-size="<%= size %>">
-              </a>
-            </div><div class="col col-3">
+              <img src="img/diff/<%= name %>-<%= size %>.png?<%= now %>" data-size="<%= size %>">
+            </div><div class="col" data-col="3">
               <h2>New Screens</h2>
-              <a href="img/current/<%= name %>-<%= size %>.png?<%= now %>" target="_blank">
-                <img src="" data-src="img/current/<%= name %>-<%= size %>.png?<%= now %>" data-size="<%= size %>">
-              </a>
+              <img src="img/current/<%= name %>-<%= size %>.png?<%= now %>" data-size="<%= size %>">
               <p><%= timestamps.current %></p>
             </div>
           </div>
@@ -161,22 +166,21 @@
     <% } );%>
   </main>
 
+  <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
   <script type="text/javascript">
   (function(){
     'use strict';
-    var imagesList      = document.querySelectorAll( 'img' ),
-        images          = Array.prototype.slice.call( imagesList, 0 );
 
-    function placeKitten() {
-      var size = this.dataset.size.replace( /x/, '/')
-      this.src = 'http://placekitten.com/' + size;
-    }
+    var $main = $('main');
 
-    images.forEach( function( image ) {
-      image.onerror = placeKitten;
-      image.src = image.dataset.src;
-    } );
+    $( 'body' ).on( 'click', '.col', function() {
+      var col = $( this ).data('col'),
+          $cols = $( '[data-col="' + col + '"]' ),
+          is_active = this.className.indexOf( 'active' ) !== -1;
 
+      $cols.toggleClass( 'active', !is_active );
+      $main.toggleClass( 'inspect', !is_active );
+    });
 
   })();
   </script>
