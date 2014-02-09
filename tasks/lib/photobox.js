@@ -10,8 +10,8 @@
 
 var fs           = require( 'fs' ),
     path         = require( 'path' ),
-    phantomjs    = require( 'phantomjs' ),
-    phantomPath  = phantomjs.path;
+    async        = require( 'async' ),
+    phantomPath  = __dirname + '/../../phantomjs';
 
 /**
  * Constructor for PhotoBox
@@ -63,7 +63,6 @@ PhotoBox.prototype.compositeCallback = function( err, result, code, picture ) {
     this.overlayCallback( err, code, result, picture );
   }.bind( this ) );
 };
-
 
 /**
  * Actuel function to create the diff images
