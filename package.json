@@ -52,5 +52,8 @@
     "phantomjs",
     "screenshot",
     "qa"
-  ]
+  ],
+  "dependencies": {
+    "async": "~0.2.10"
+  }
 }

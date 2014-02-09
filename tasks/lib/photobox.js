@@ -496,7 +496,7 @@ PhotoBox.prototype.startPhotoSession = function() {
     userName                      : this.options.userName
   } );
 
-  this.pictures.forEach( function( picture ) {
+  async.eachLimit( this.pictures, this.options.concurrency, function( picture, asyncCallback ) {
     this.grunt.log.writeln( 'started photo session for ' + picture );
 
     var args = [
@@ -522,6 +522,7 @@ PhotoBox.prototype.startPhotoSession = function() {
       opts : opts
     }, function( err, result, code ) {
       this.photoSessionCallback( err, result, code, picture );
+      asyncCallback();
     }.bind( this ) );
   }.bind( this ) );
 };
