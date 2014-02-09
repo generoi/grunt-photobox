@@ -23,6 +23,7 @@ module.exports = function( grunt ) {
             loadImages                    : true,
             password                      : '',
             screenSizes                   : [ '800' ],
+            trim                          : false,
             concurrency                   : 3,
             template                      : 'cssOverlay',
             userAgent                     : 'Photobox',

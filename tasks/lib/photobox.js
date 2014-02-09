@@ -476,6 +476,15 @@ PhotoBox.prototype.setPictureCount = function( count ) {
   return this.pictureCount;
 };
 
+/**
+ * Trim an image
+ */
+PhotoBox.prototype.trimImage = function(filepath, callback) {
+  this.grunt.util.spawn( {
+    cmd : 'convert',
+    args : [filepath, '-trim', filepath]
+  }, callback.bind(this) );
+};
 
 /**
  * Start a session of taking pictures
@@ -521,8 +530,22 @@ PhotoBox.prototype.startPhotoSession = function() {
       args : args,
       opts : opts
     }, function( err, result, code ) {
-      this.photoSessionCallback( err, result, code, picture );
       asyncCallback();
+
+      if ( this.options.trim && !err ) {
+        this.grunt.log.writeln( 'started trimming ' + picture );
+
+        var filename = picture.replace( /(http:\/\/|https:\/\/)/, '')
+                          .replace( /(\/)|(\|)/g, '-' )
+                          .replace( '#', '-' );
+
+        this.trimImage(this.options.indexPath + 'img/current/' + filename + '.png', function(err, result, code) {
+          this.photoSessionCallback( err, result, code, picture );
+        });
+
+      } else {
+        this.photoSessionCallback( err, result, code, picture );
+      }
     }.bind( this ) );
   }.bind( this ) );
 };
