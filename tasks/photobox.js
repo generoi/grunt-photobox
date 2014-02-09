@@ -23,6 +23,8 @@ module.exports = function( grunt ) {
             loadImages                    : true,
             password                      : '',
             screenSizes                   : [ '800' ],
+            screenHeight                  : 1000,
+            timeout                       : 1000,
             trim                          : false,
             concurrency                   : 3,
             template                      : 'cssOverlay',

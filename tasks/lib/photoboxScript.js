@@ -19,6 +19,8 @@ var system        = require ( 'system' ),
     url           = split[ 0 ],
     width         = +split[ 1 ],
     indexPath     = system.args[ 2 ],
+    height        = +system.args[ 3 ],
+    timeout       = +system.args[ 4 ],
     settings      = fs.read( indexPath + 'options.json' );
 
 if ( settings !== '{}' ) {
@@ -43,7 +45,7 @@ page.onConsoleMessage = function( msg, lineNum, sourceId ) {
 };
 
 page.viewportSize = {
-  height : 1000,
+  height : height,
   width  : width
 };
 
@@ -74,5 +76,5 @@ page.open( url, function( status ) {
     page.render( imgPath );
 
     phantom.exit();
-  }, 1000 );
+  }, timeout );
 } );

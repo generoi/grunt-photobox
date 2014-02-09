@@ -512,7 +512,8 @@ PhotoBox.prototype.startPhotoSession = function() {
       path.resolve(__dirname, 'photoboxScript.js'),
       picture,
       this.options.indexPath,
-      this.options.indexPath + 'options.json'
+      this.options.screenHeight,
+      this.options.timeout
     ];
 
     var opts = {};
